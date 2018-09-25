@@ -1,4 +1,4 @@
-The TerminalGraphics.jl package is licensed under the MIT "Expat" License:
+The UnicodeGraphics.jl package is licensed under the MIT "Expat" License:
 
 > Copyright (c) 2018: Rafael Schouten.
 >

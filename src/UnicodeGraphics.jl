@@ -1,7 +1,7 @@
 """
 Block and braile rendering of julia arrays, for terminal graphics.
 """
-module TerminalGraphics
+module UnicodeGraphics
 
 export blockize, brailize
 

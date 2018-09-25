@@ -1,8 +1,8 @@
-# TerminalGraphics
+# UnicodeGraphics
 
-[![Build Status](https://travis-ci.org/rafaqz/TerminalGraphics.jl.svg?branch=master)](https://travis-ci.org/rafaqz/TerminalGraphics.jl)
-[![Coverage Status](https://coveralls.io/repos/rafaqz/TerminalGraphics.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/rafaqz/TerminalGraphics.jl?branch=master)
-[![codecov.io](http://codecov.io/github/rafaqz/TerminalGraphics.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/TerminalGraphics.jl?branch=master)
+[![Build Status](https://travis-ci.org/rafaqz/UnicodeGraphics.jl.svg?branch=master)](https://travis-ci.org/rafaqz/UnicodeGraphics.jl)
+[![Coverage Status](https://coveralls.io/repos/rafaqz/UnicodeGraphics.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/rafaqz/UnicodeGraphics.jl?branch=master)
+[![codecov.io](http://codecov.io/github/rafaqz/UnicodeGraphics.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/UnicodeGraphics.jl?branch=master)
 
 Convert a matrix of Real into a braile or block Unicode string, real fast.
 
