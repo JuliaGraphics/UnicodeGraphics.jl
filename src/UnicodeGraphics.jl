@@ -3,9 +3,7 @@ Block and braile rendering of julia arrays, for terminal graphics.
 """
 module UnicodeGraphics
 
-export blockize, brailize
-
-function brailize end
+export blockize, brailize, blockize!, brailize!
 
 """
     brailize(a, cutoff=0)
