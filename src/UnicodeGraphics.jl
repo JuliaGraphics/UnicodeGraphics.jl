@@ -5,14 +5,29 @@ module UnicodeGraphics
 
 export blockize, brailize
 
-blockize(a, cutoff=0) = blockize(a, cutoff)
-blockize(a, cutoff) = begin
+function brailize end
+
+"""
+    brailize(a, cutoff=0)
+Convert an array to a block unicode string, filling values above the cutoff point.
+"""
+blockize(a, cutoff=0) = begin
     yrange, xrange = axes(a)
     out = Array{Char,2}(undef, length(xrange) + 1, (length(yrange) - 1) ÷ 2 + 1)
     blockize!(out, a, cutoff) 
 end
 
-blockize!(out, a, cutoff) = join(block_array!(out, a, cutoff))
+"""
+    blockize!(out, a, cutoff=0)
+Convert an array to a braile unicode string, filling the `out` array.
+Calculation of array dims is a little complicated:
+
+```julia
+yrange, xrange = axes(a)
+out = Array{Char,2}(undef, length(xrange) + 1, (length(yrange) - 1) ÷ 2 + 1)
+```
+"""
+blockize!(out, a, cutoff=0) = join(block_array!(out, a, cutoff))
 
 function block_array!(out, a, cutoff)
     yrange, xrange = axes(a)
@@ -37,14 +52,27 @@ end
 
 const braile_hex = ((0x01, 0x08), (0x02, 0x10), (0x04, 0x20), (0x40, 0x80))
 
-brailize(a) = brailize(a, 0)
-brailize(a, cutoff) = begin 
+"""
+    brailize(a, cutoff=0)
+Convert an array to a braile unicode string, filling values above the cutoff point.
+"""
+brailize(a, cutoff=0) = begin 
     yrange, xrange = axes(a)
     out = Array{Char,2}(undef, (length(xrange) - 1) ÷ 2 + 2, (length(yrange) - 1) ÷ 4 + 1)
     brailize!(out, a, cutoff) 
 end
 
-brailize!(out, a, cutoff) = join(braile_array!(out, a, cutoff))
+"""
+    brailize!(out, a, cutoff=0)
+Convert an array to a braile unicode string, filling the `out` array.
+Calculation of array dims is a little complicated:
+
+```julia
+yrange, xrange = axes(a)
+out = Array{Char,2}(undef, (length(xrange) - 1) ÷ 2 + 2, (length(yrange) - 1) ÷ 4 + 1)
+```
+"""
+brailize!(out, a, cutoff=0) = join(braile_array!(out, a, cutoff))
 
 function braile_array!(out, a, cutoff)
     yrange, xrange = axes(a)
