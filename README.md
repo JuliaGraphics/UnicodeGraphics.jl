@@ -63,11 +63,9 @@ ghost = [1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0
          1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0]
 
 
-julia> print(brailize(ghost, 0.5, 2:15, 4:17))                                                                         
+julia> print(brailize(view(ghost, 2:15, 4:17), 0.5))                                                                         
 ⠀⣠⣴⣶⣦⣄⠀                                                                                                                
 ⣨⡄⢹⣯⡄⢹⣇                                                                                                                
 ⣿⣶⣿⣿⣶⣿⣿                                                                                                                
 ⠋⠈⠛⠀⠛⠁⠙                                                                                                                
 ```
-
-Where 0.5 is the cutoff point, 2:15 is the y range and 4:16 is the x range.
