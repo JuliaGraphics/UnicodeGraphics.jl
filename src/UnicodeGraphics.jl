@@ -5,6 +5,13 @@ module UnicodeGraphics
 
 export blockize, brailize, blockize!, brailize!
 
+struct UnicodeGraphicsType
+    data::String
+end
+function Base.show(io::IO, x::UnicodeGraphicsType)
+    print(io, x.data)
+end
+
 """
     brailize(a, cutoff=0)
 Convert an array to a block unicode string, filling values above the cutoff point.
@@ -12,7 +19,7 @@ Convert an array to a block unicode string, filling values above the cutoff poin
 blockize(a, cutoff=0) = begin
     yrange, xrange = axes(a)
     out = Array{Char,2}(undef, length(xrange) + 1, (length(yrange) - 1) ÷ 2 + 1)
-    blockize!(out, a, cutoff) 
+    blockize!(out, a, cutoff)
 end
 
 """
@@ -25,7 +32,7 @@ yrange, xrange = axes(a)
 out = Array{Char,2}(undef, length(xrange) + 1, (length(yrange) - 1) ÷ 2 + 1)
 ```
 """
-blockize!(out, a, cutoff=0) = join(block_array!(out, a, cutoff))
+blockize!(out, a, cutoff=0) = join(block_array!(out, a, cutoff)) |> UnicodeGraphicsType
 
 function block_array!(out, a, cutoff)
     yrange, xrange = axes(a)
@@ -54,10 +61,10 @@ const braile_hex = ((0x01, 0x08), (0x02, 0x10), (0x04, 0x20), (0x40, 0x80))
     brailize(a, cutoff=0)
 Convert an array to a braile unicode string, filling values above the cutoff point.
 """
-brailize(a, cutoff=0) = begin 
+brailize(a, cutoff=0) = begin
     yrange, xrange = axes(a)
     out = Array{Char,2}(undef, (length(xrange) - 1) ÷ 2 + 2, (length(yrange) - 1) ÷ 4 + 1)
-    brailize!(out, a, cutoff) 
+    brailize!(out, a, cutoff)
 end
 
 """
@@ -70,7 +77,7 @@ yrange, xrange = axes(a)
 out = Array{Char,2}(undef, (length(xrange) - 1) ÷ 2 + 2, (length(yrange) - 1) ÷ 4 + 1)
 ```
 """
-brailize!(out, a, cutoff=0) = join(braile_array!(out, a, cutoff))
+brailize!(out, a, cutoff=0) = join(braile_array!(out, a, cutoff)) |> UnicodeGraphicsType
 
 function braile_array!(out, a, cutoff)
     yrange, xrange = axes(a)
