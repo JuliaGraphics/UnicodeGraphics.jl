@@ -1,4 +1,4 @@
-using UnicodeGraphics, 
+using UnicodeGraphics,
       OffsetArrays,
       Test
 
@@ -98,3 +98,15 @@ braile_ghost =
 test_ghost = sprint(show, brailize(OffsetArray(ghost[2:15, 4:17], 2:15, 4:17), 0.5))
 @test test_ghost == braile_ghost
 println(test_ghost, "\n\n", braile_ghost)
+
+test_ghost = blockize(OffsetArray(ghost[3:15, 4:17], 3:15, 4:17), 0.5)
+@test ccall(:strlen, Csize_t, (Cstring,), test_ghost[1:prevind(test_ghost, lastindex(test_ghost))]) == ccall(:strlen, Csize_t, (Ptr{UInt8},), test_ghost) == sizeof(test_ghost)-1
+for f in (length, eachindex, pointer, collect, ncodeunits, codeunits)
+    @test f(test_ghost) == f(test_ghost.s)
+end
+@test nextind(test_ghost, 1) == prevind(test_ghost, 3) == 2
+@test isvalid(test_ghost, 1)
+@test findnext(isequal('▄'), test_ghost, 1) == 4
+@test test_ghost[4] == '▄'
+@test codeunit(test_ghost, 1) == UInt8(' ')
+@test test_ghost[1:4] == test_ghost[0x01:0x04] == test_ghost[[1,2,3,4]] == "   ▄"
