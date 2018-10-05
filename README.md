@@ -1,6 +1,7 @@
 # UnicodeGraphics
 
 [![Build Status](https://travis-ci.org/rafaqz/UnicodeGraphics.jl.svg?branch=master)](https://travis-ci.org/rafaqz/UnicodeGraphics.jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/9ssyr83n58nj510i?svg=true)](https://ci.appveyor.com/project/rafaqz/unicodegraphics-jl)
 [![Coverage Status](https://coveralls.io/repos/rafaqz/UnicodeGraphics.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/rafaqz/UnicodeGraphics.jl?branch=master)
 [![codecov.io](http://codecov.io/github/rafaqz/UnicodeGraphics.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/UnicodeGraphics.jl?branch=master)
 
