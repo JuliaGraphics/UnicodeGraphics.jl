@@ -9,11 +9,11 @@ export blockize, brailize, blockize!, brailize!
     brailize(a, cutoff=0)
 Convert an array to a block unicode string, filling values above the cutoff point.
 """
-blockize(a, cutoff=0) = begin
-    yrange, xrange = axes(a)
-    out = Array{Char,2}(undef, length(xrange) + 1, (length(yrange) - 1) ÷ 2 + 1)
-    blockize!(out, a, cutoff) 
-end
+blockize(a, cutoff=0) = blockize!(initblock(size(a)), a, cutoff) 
+
+# x and y are inverted: repl rows are columns.
+initblock((y, x)) = initblock(y, x) 
+initblock(y, x) = Array{Char,2}(undef, x + 1, (y - 1) ÷ 2 + 1)
 
 """
     blockize!(out, a, cutoff=0)
@@ -54,11 +54,11 @@ const braile_hex = ((0x01, 0x08), (0x02, 0x10), (0x04, 0x20), (0x40, 0x80))
     brailize(a, cutoff=0)
 Convert an array to a braile unicode string, filling values above the cutoff point.
 """
-brailize(a, cutoff=0) = begin 
-    yrange, xrange = axes(a)
-    out = Array{Char,2}(undef, (length(xrange) - 1) ÷ 2 + 2, (length(yrange) - 1) ÷ 4 + 1)
-    brailize!(out, a, cutoff) 
-end
+brailize(a, cutoff=0) = brailize!(initbraile(size(a)), a, cutoff) 
+
+# x and y are inverted: repl rows are columns.
+initbraile((y, x)) = initbraile(y, x) 
+initbraile(y, x) = Array{Char,2}(undef, (x - 1) ÷ 2 + 2, (y - 1) ÷ 4 + 1)
 
 """
     brailize!(out, a, cutoff=0)

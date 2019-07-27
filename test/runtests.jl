@@ -1,6 +1,4 @@
-using UnicodeGraphics, 
-      OffsetArrays,
-      Test
+using UnicodeGraphics, OffsetArrays, Test
 
 pac = [0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0;
        0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0;
@@ -83,7 +81,7 @@ block_ghost =
 ██▀███▀▀███▀██
 ▀   ▀▀  ▀▀   ▀\0"""
 
-test_ghost = blockize(OffsetArray(ghost[3:15, 4:17], 3:15, 4:17), 0.5, )
+test_ghost = blockize(OffsetArray(ghost[3:15, 4:17], 3:15, 4:17), 0.5)
 @test test_ghost == block_ghost
 println(test_ghost, "\n\n", block_ghost, "\n\n")
 
