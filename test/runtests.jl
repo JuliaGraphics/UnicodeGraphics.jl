@@ -47,7 +47,7 @@ braille_pac =
 ⠹⣿⣿⣿⣿⣿⣿⣷⣦⡄
 ⠀⠙⠻⢿⣿⣿⡿⠟⠋⠀\0"""
 
-test_pac = brailize(pac)
+test_pac = brailleize(pac)
 @test test_pac == braille_pac
 println(test_pac, "\n\n", braille_pac, "\n\n")
 
@@ -93,6 +93,6 @@ braille_ghost =
 ⣿⣶⣿⣿⣶⣿⣿
 ⠋⠈⠛⠀⠛⠁⠙\0"""
 
-test_ghost = brailize(OffsetArray(ghost[2:15, 4:17], 2:15, 4:17), 0.5)
+test_ghost = brailleize(OffsetArray(ghost[2:15, 4:17], 2:15, 4:17), 0.5)
 @test test_ghost == braille_ghost
 println(test_ghost, "\n\n", braille_ghost)
