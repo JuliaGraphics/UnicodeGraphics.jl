@@ -3,7 +3,83 @@ Block and braille rendering of julia arrays, for terminal graphics.
 """
 module UnicodeGraphics
 
-export blockize, brailize
+export blockize, brailize, bprint
+
+const DEFAULT_METHOD = :braille
+"""
+    bprint(A, [method])
+
+Print array to a binary unicode string, filling values that are `true` or greater than zero.
+
+The printing method can be specified by passing either `:braille` or `:block`.
+The default is `:$DEFAULT_METHOD`.
+
+# Example
+```julia-repl
+julia> A = rand(Bool, 8, 8)
+8×8 Matrix{Bool}:
+ 0  1  0  1  0  1  0  1
+ 0  1  1  1  0  1  1  1
+ 1  0  0  0  0  0  0  0
+ 0  0  0  0  1  1  1  1
+ 1  1  0  0  0  1  1  1
+ 1  1  1  0  1  1  0  0
+ 0  0  1  0  0  1  0  1
+ 1  1  0  1  1  1  0  0
+
+julia> bprint(A)
+⠜⠚⣘⣚
+⣛⢆⣺⠩
+julia> bprint(A, :block)
+ █▄█ █▄█
+▀   ▄▄▄▄
+██▄ ▄█▀▀
+▄▄▀▄▄█ ▀
+```
+"""
+bprint(A, method::Symbol=DEFAULT_METHOD) = bprint(>(zero(eltype(A))), A, method)
+
+"""
+    bprint(f, A, [method])
+
+Print array to a binary unicode string, filling values for which `f` returns `true`.
+
+The printing method can be specified by passing either `:braille` or `:block`.
+The default is `:$DEFAULT_METHOD`.
+
+# Example
+```julia-repl
+julia> A = rand(1:9, 8, 8)
+8×8 Matrix{Int64}:
+ 9  1  6  3  4  2  9  6
+ 4  1  2  8  2  5  9  1
+ 7  5  6  1  1  4  8  8
+ 4  8  3  4  8  7  8  8
+ 4  2  2  6  2  6  1  7
+ 9  1  4  1  8  1  6  1
+ 3  8  4  3  9  5  5  6
+ 1  4  4  2  8  6  3  9
+
+julia> bprint(iseven, A)
+⣂⢗⡫⣬
+⢩⣏⣋⠢
+julia> bprint(>(3), A, :block)
+█ ▀▄▀▄█▀
+██▀▄▄███
+█ ▄▀▄▀▄▀
+ ██ ██▀█
+```
+"""
+function bprint(f, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+    if method == :braille
+        print(brailize(f, A))
+    elseif method == :block
+        print(blockize(f, A))
+    else
+        throw(ArgumentError("Valid methods are :braille and :block, got :$method."))
+    end
+    return nothing
+end
 
 """
     blockize(A, cutoff=0)
