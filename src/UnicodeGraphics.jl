@@ -1,5 +1,5 @@
 """
-Block and braile rendering of julia arrays, for terminal graphics.
+Block and braille rendering of julia arrays, for terminal graphics.
 """
 module UnicodeGraphics
 
@@ -10,16 +10,16 @@ export blockize, brailize, blockize!, brailize!
 
 Convert an array to a block unicode string, filling values above the cutoff point.
 """
-blockize(a, cutoff=0) = blockize!(initblock(size(a)), a, cutoff) 
+blockize(a, cutoff=0) = blockize!(initblock(size(a)), a, cutoff)
 
 # x and y are inverted: repl rows are columns.
-initblock((y, x)) = initblock(y, x) 
+initblock((y, x)) = initblock(y, x)
 initblock(y, x) = Array{Char,2}(undef, x + 1, (y - 1) ÷ 2 + 1)
 
 """
     blockize!(out, a, cutoff=0)
 
-Convert an array to a braile unicode string, filling the `out` array.
+Convert an array to a braille unicode string, filling the `out` array.
 Calculation of array dims is a little complicated:
 """
 blockize!(out, a, cutoff=0) = join(block_array!(out, a, cutoff))
@@ -45,34 +45,34 @@ function block_array!(out, a, cutoff)
     out
 end
 
-const braile_hex = ((0x01, 0x08), (0x02, 0x10), (0x04, 0x20), (0x40, 0x80))
+const braille_hex = ((0x01, 0x08), (0x02, 0x10), (0x04, 0x20), (0x40, 0x80))
 
 """
     brailize(a, cutoff=0)
 
-Convert an array to a braile unicode string, filling values above the cutoff point.
+Convert an array to a braille unicode string, filling values above the cutoff point.
 """
-brailize(a, cutoff=0) = brailize!(initbraile(size(a)), a, cutoff) 
+brailize(a, cutoff=0) = brailize!(initbraille(size(a)), a, cutoff)
 
 # x and y are inverted: repl rows are columns.
-initbraile((y, x)) = initbraile(y, x) 
-initbraile(y, x) = Array{Char,2}(undef, (x - 1) ÷ 2 + 2, (y - 1) ÷ 4 + 1)
+initbraille((y, x)) = initbraille(y, x)
+initbraille(y, x) = Array{Char,2}(undef, (x - 1) ÷ 2 + 2, (y - 1) ÷ 4 + 1)
 
 """
     brailize!(out, a, cutoff=0)
 
-Convert an array to a braile unicode string, filling the `out` array.
+Convert an array to a braille unicode string, filling the `out` array.
 """
-brailize!(out, a, cutoff=0) = join(braile_array!(out, a, cutoff))
+brailize!(out, a, cutoff=0) = join(braille_array!(out, a, cutoff))
 
-function braile_array!(out, a, cutoff)
+function braille_array!(out, a, cutoff)
     yrange, xrange = axes(a)
     for y in first(yrange):4:last(yrange)
         for x in first(xrange):2:last(xrange)
             ch = 0x2800
             for j = 0:3, i = 0:1
                 if checkval(a, y+j, x+i, yrange, xrange, cutoff)
-                    ch += braile_hex[j % 4 + 1][i % 2 + 1]
+                    ch += braille_hex[j % 4 + 1][i % 2 + 1]
                 end
             end
             out[(x - first(xrange)) ÷ 2 + 1, (y-first(yrange)) ÷ 4 + 1] = ch
