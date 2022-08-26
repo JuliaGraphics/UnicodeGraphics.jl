@@ -21,7 +21,7 @@ function blockize(A, cutoff=0)
             if top
                 print(io, bottom ? '█' : '▀')
             else
-                print(io,  bottom ? '▄' : ' ')
+                print(io, bottom ? '▄' : ' ')
             end
         end
         # Return after every column
@@ -32,7 +32,7 @@ function blockize(A, cutoff=0)
     return String(take!(io))
 end
 
-const braille_hex = ((0x01, 0x08), (0x02, 0x10), (0x04, 0x20), (0x40, 0x80))
+const BRAILLE_HEX = (0x01, 0x02, 0x04, 0x40, 0x08, 0x10, 0x20, 0x80)
 
 """
     brailize(a, cutoff=0)
@@ -47,9 +47,9 @@ function brailize(A, cutoff=0)
     for y in yrange
         for x in xrange
             ch = 0x2800
-            for j = 0:3, i = 0:1
-                if checkval(A, y+j, x+i, h, w, cutoff)
-                    ch += braille_hex[j % 4 + 1][i % 2 + 1]
+            for j in 0:3, i in 0:1
+                if checkval(A, y + j, x + i, h, w, cutoff)
+                    @inbounds ch +=  BRAILLE_HEX[1 + j % 4 + 4 * (i % 2)]
                 end
             end
             print(io, Char(ch))
