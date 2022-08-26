@@ -3,46 +3,33 @@ Block and braille rendering of julia arrays, for terminal graphics.
 """
 module UnicodeGraphics
 
-export blockize, brailize, blockize!, brailize!
+export blockize, brailize
 
 """
     blockize(a, cutoff=0)
 
 Convert an array to a block unicode string, filling values above the cutoff point.
 """
-blockize(a, cutoff=0) = blockize!(initblock(size(a)), a, cutoff)
-
-# x and y are inverted: repl rows are columns.
-initblock((y, x)) = initblock(y, x)
-initblock(y, x) = Array{Char,2}(undef, x + 1, (y - 1) ÷ 2 + 1)
-
-"""
-    blockize!(out, a, cutoff=0)
-
-Convert an array to a braille unicode string, filling the `out` array.
-Calculation of array dims is a little complicated:
-"""
-blockize!(out, a, cutoff=0) = join(block_array!(out, a, cutoff))
-
-function block_array!(out, a, cutoff)
-    yrange, xrange = axes(a)
-    for y in first(yrange):2:last(yrange)
-        for x in xrange
-            top = checkval(a, y, x, yrange, xrange, cutoff)
-            bottom = checkval(a, y + 1, x, yrange, xrange, cutoff)
+function blockize(A, cutoff=0)
+    io = IOBuffer()
+    h, w = axes(A)
+    yrange = first(h):2:last(h)
+    for y in yrange
+        for x in w
+            top = checkval(A, y, x, h, w, cutoff)
+            bottom = checkval(A, y + 1, x, h, w, cutoff)
             if top
-                ch = bottom ? '█' : '▀'
+                print(io, bottom ? '█' : '▀')
             else
-                ch = bottom ? '▄' : ' '
+                print(io,  bottom ? '▄' : ' ')
             end
-            out[x-first(xrange) + 1, (y-first(yrange)) ÷ 2 + 1] = Char(ch)
         end
         # Return after every column
-        out[end, (y-first(yrange)) ÷ 2 + 1] = Char('\n')
+        y != last(yrange) && println(io)
     end
     # The last character is null
-    out[end, end] = 0x00
-    out
+    print(io, Char(0x00))
+    return String(take!(io))
 end
 
 const braille_hex = ((0x01, 0x08), (0x02, 0x10), (0x04, 0x20), (0x40, 0x80))
@@ -52,45 +39,33 @@ const braille_hex = ((0x01, 0x08), (0x02, 0x10), (0x04, 0x20), (0x40, 0x80))
 
 Convert an array to a braille unicode string, filling values above the cutoff point.
 """
-brailize(a, cutoff=0) = brailize!(initbraille(size(a)), a, cutoff)
-
-# x and y are inverted: repl rows are columns.
-initbraille((y, x)) = initbraille(y, x)
-initbraille(y, x) = Array{Char,2}(undef, (x - 1) ÷ 2 + 2, (y - 1) ÷ 4 + 1)
-
-"""
-    brailize!(out, a, cutoff=0)
-
-Convert an array to a braille unicode string, filling the `out` array.
-"""
-brailize!(out, a, cutoff=0) = join(braille_array!(out, a, cutoff))
-
-function braille_array!(out, a, cutoff)
-    yrange, xrange = axes(a)
-    for y in first(yrange):4:last(yrange)
-        for x in first(xrange):2:last(xrange)
+function brailize(A, cutoff=0)
+    io = IOBuffer()
+    h, w = axes(A)
+    yrange = first(h):4:last(h)
+    xrange = first(w):2:last(w)
+    for y in yrange
+        for x in xrange
             ch = 0x2800
             for j = 0:3, i = 0:1
-                if checkval(a, y+j, x+i, yrange, xrange, cutoff)
+                if checkval(A, y+j, x+i, h, w, cutoff)
                     ch += braille_hex[j % 4 + 1][i % 2 + 1]
                 end
             end
-            out[(x - first(xrange)) ÷ 2 + 1, (y-first(yrange)) ÷ 4 + 1] = ch
+            print(io, Char(ch))
         end
         # Return after every column
-        out[end, (y-first(yrange)) ÷ 4 + 1] = Char('\n')
+        y != last(yrange) && println(io)
     end
     # The last character is null
-    out[end, end] = 0x00
-    out
+    print(io, Char(0x00))
+    return String(take!(io))
 end
 
-checkval(a, y, x, yrange, xrange, cutoff) = begin
-    if x <= last(xrange) && y <= last(yrange)
-        a[y, x] > cutoff
-    else
-        false
-    end
+@inline function checkval(a, y, x, yrange, xrange, cutoff)
+    x > last(xrange) && return false
+    y > last(yrange) && return false
+    return @inbounds a[y, x] > cutoff
 end
 
 end # module
