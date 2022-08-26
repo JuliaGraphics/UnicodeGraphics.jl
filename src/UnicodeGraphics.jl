@@ -6,7 +6,7 @@ module UnicodeGraphics
 export blockize, brailize, blockize!, brailize!
 
 """
-    brailize(a, cutoff=0)
+    blockize(a, cutoff=0)
 
 Convert an array to a block unicode string, filling values above the cutoff point.
 """
