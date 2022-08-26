@@ -10,7 +10,10 @@ export blockize, brailize
 
 Convert an array to a block unicode string, filling values above the cutoff point.
 """
-blockize(A, cutoff::Real=0) = blockize(x -> x > cutoff, A)
+function blockize(A, cutoff::Real=0)
+    cutoff = convert(eltype(A), cutoff)
+    return blockize(>(cutoff), A)
+end
 """
     blockize(f, A)
 
@@ -58,7 +61,6 @@ function blockize(f, A::AbstractMatrix)
     return String(take!(io))
 end
 
-
 const BRAILLE_HEX = (0x01, 0x02, 0x04, 0x40, 0x08, 0x10, 0x20, 0x80)
 
 """
@@ -66,7 +68,10 @@ const BRAILLE_HEX = (0x01, 0x02, 0x04, 0x40, 0x08, 0x10, 0x20, 0x80)
 
 Convert an array to a braille unicode string, filling values above the cutoff point.
 """
-brailize(A, cutoff::Real=0) = brailize(x -> x > cutoff, A)
+function brailize(A, cutoff::Real=0)
+    cutoff = convert(eltype(A), cutoff)
+    return brailize(>(cutoff), A)
+end
 """
     brailize(f, A)
 
