@@ -25,8 +25,8 @@ pac = [
     0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0
 ]
 
-@test_reference "references/block_pac.txt" to_block(pac)
-@test_reference "references/braille_pac.txt" to_braille(pac)
+@test_reference "references/braille_pac.txt" bstring(pac)
+@test_reference "references/block_pac.txt" bstring(pac, :block)
 
 ghost = [
     0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0 1.0 0.0 0.0 0.0 0.0 0.0
@@ -44,10 +44,10 @@ ghost = [
     1.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0
 ]
 
-@test_reference "references/block_ghost.txt" to_block(ghost)
-@test_reference "references/braille_ghost.txt" to_braille(ghost)
+@test_reference "references/braille_ghost.txt" bstring(ghost)
+@test_reference "references/block_ghost.txt" bstring(ghost, :block)
 
 offset_ghost = OffsetArray(ghost, 3:15, 4:17)
 
-@test_reference "references/block_ghost.txt" to_block(offset_ghost)
-@test_reference "references/braille_ghost.txt" to_braille(offset_ghost)
+@test_reference "references/braille_ghost.txt" bstring(offset_ghost)
+@test_reference "references/block_ghost.txt" bstring(offset_ghost, :block)
