@@ -3,7 +3,7 @@ Block and braille rendering of julia arrays, for terminal graphics.
 """
 module UnicodeGraphics
 
-export blockize, brailleize, bprint
+export to_block, to_braille, bprint
 
 const DEFAULT_METHOD = :braille
 """
@@ -72,9 +72,9 @@ julia> bprint(>(3), A, :block)
 """
 function bprint(f, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
     if method == :braille
-        print(brailleize(f, A))
+        print(to_braille(f, A))
     elseif method == :block
-        print(blockize(f, A))
+        print(to_block(f, A))
     else
         throw(ArgumentError("Valid methods are :braille and :block, got :$method."))
     end
@@ -82,16 +82,16 @@ function bprint(f, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
 end
 
 """
-    blockize(A, cutoff=0)
+    to_block(A, cutoff=0)
 
 Convert an array to a block unicode string, filling values above the cutoff point.
 """
-function blockize(A, cutoff::Real=0)
+function to_block(A, cutoff::Real=0)
     cutoff = convert(eltype(A), cutoff)
-    return blockize(>(cutoff), A)
+    return to_block(>(cutoff), A)
 end
 """
-    blockize(f, A)
+    to_block(f, A)
 
 Convert an array to a block unicode string, filling values for which `f` returns `true`.
 
@@ -108,14 +108,14 @@ julia> A = rand(1:9, 8, 8)
  7  8  4  8  8  9  9  1
  1  1  4  1  5  7  6  6
 
-julia> print(blockize(iseven, A))
+julia> print(to_block(iseven, A))
 ▀▀▀ ▀▀██
 ▀▀▄█▄▀█▄
 ▀ ▀ ▀█ █
  ▀█▀▀ ▄▄
 ```
 """
-function blockize(f, A::AbstractMatrix)
+function to_block(f, A::AbstractMatrix)
     io = IOBuffer()
     h, w = axes(A)
     yrange = first(h):2:last(h)
@@ -140,16 +140,16 @@ end
 const BRAILLE_HEX = (0x01, 0x02, 0x04, 0x40, 0x08, 0x10, 0x20, 0x80)
 
 """
-    brailleize(A, cutoff=0)
+    to_braille(A, cutoff=0)
 
 Convert an array to a braille unicode string, filling values above the cutoff point.
 """
-function brailleize(A, cutoff::Real=0)
+function to_braille(A, cutoff::Real=0)
     cutoff = convert(eltype(A), cutoff)
-    return brailleize(>(cutoff), A)
+    return to_braille(>(cutoff), A)
 end
 """
-    brailleize(f, A)
+    to_braille(f, A)
 
 Convert an array to a braille unicode string, filling values for which `f` returns `true`.
 # Example
@@ -165,12 +165,12 @@ julia> A = rand(1:9, 8, 8)
  7  8  4  8  8  9  9  1
  1  1  4  1  5  7  6  6
 
-julia> print(brailleize(iseven, A))
+julia> print(to_braille(iseven, A))
 ⠭⣡⡩⣟
 ⠡⡥⠝⣘
 ```
 """
-function brailleize(f, A::AbstractMatrix)
+function to_braille(f, A::AbstractMatrix)
     io = IOBuffer()
     h, w = axes(A)
     yrange = first(h):4:last(h)

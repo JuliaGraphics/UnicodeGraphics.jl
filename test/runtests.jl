@@ -34,7 +34,7 @@ block_pac = """
   ▀██████████████▀  
      ▀▀██████▀▀     \0"""
 
-test_pac = blockize(pac)
+test_pac = to_block(pac)
 @test test_pac == block_pac
 println(test_pac, "\n\n", block_pac, "\n\n")
 
@@ -47,7 +47,7 @@ braille_pac =
 ⠹⣿⣿⣿⣿⣿⣿⣷⣦⡄
 ⠀⠙⠻⢿⣿⣿⡿⠟⠋⠀\0"""
 
-test_pac = brailleize(pac)
+test_pac = to_braille(pac)
 @test test_pac == braille_pac
 println(test_pac, "\n\n", braille_pac, "\n\n")
 
@@ -81,7 +81,7 @@ block_ghost =
 ██▀███▀▀███▀██
 ▀   ▀▀  ▀▀   ▀\0"""
 
-test_ghost = blockize(OffsetArray(ghost[3:15, 4:17], 3:15, 4:17), 0.5)
+test_ghost = to_block(OffsetArray(ghost[3:15, 4:17], 3:15, 4:17), 0.5)
 @test test_ghost == block_ghost
 println(test_ghost, "\n\n", block_ghost, "\n\n")
 
@@ -93,6 +93,6 @@ braille_ghost =
 ⣿⣶⣿⣿⣶⣿⣿
 ⠋⠈⠛⠀⠛⠁⠙\0"""
 
-test_ghost = brailleize(OffsetArray(ghost[2:15, 4:17], 2:15, 4:17), 0.5)
+test_ghost = to_braille(OffsetArray(ghost[2:15, 4:17], 2:15, 4:17), 0.5)
 @test test_ghost == braille_ghost
 println(test_ghost, "\n\n", braille_ghost)
