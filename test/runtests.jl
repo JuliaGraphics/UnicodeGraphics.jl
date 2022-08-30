@@ -71,3 +71,7 @@ ghost2 = [
 
 @test_reference "references/braille_ghost.txt" bstring(iseven, ghost2)
 @test_reference "references/block_ghost.txt" bstring(iseven, ghost2, :block)
+
+# Remove deprecations before next breaking release:
+@test_reference "references/braille_ghost.txt" (@test_deprecated brailize(ghost))
+@test_reference "references/block_ghost.txt" (@test_deprecated blockize(ghost))
