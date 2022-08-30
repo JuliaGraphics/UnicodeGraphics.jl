@@ -82,15 +82,6 @@ function bprint(f, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
 end
 
 """
-    to_block(A, cutoff=0)
-
-Convert an array to a block unicode string, filling values above the cutoff point.
-"""
-function to_block(A, cutoff::Real=0)
-    cutoff = convert(eltype(A), cutoff)
-    return to_block(>(cutoff), A)
-end
-"""
     to_block(f, A)
 
 Convert an array to a block unicode string, filling values for which `f` returns `true`.
@@ -139,15 +130,6 @@ end
 
 const BRAILLE_HEX = (0x01, 0x02, 0x04, 0x40, 0x08, 0x10, 0x20, 0x80)
 
-"""
-    to_braille(A, cutoff=0)
-
-Convert an array to a braille unicode string, filling values above the cutoff point.
-"""
-function to_braille(A, cutoff::Real=0)
-    cutoff = convert(eltype(A), cutoff)
-    return to_braille(>(cutoff), A)
-end
 """
     to_braille(f, A)
 
