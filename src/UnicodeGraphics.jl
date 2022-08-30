@@ -106,6 +106,7 @@ julia> print(to_block(iseven, A))
  ▀█▀▀ ▄▄
 ```
 """
+to_block(A) = to_block(>(zero(eltype(A))), A)
 function to_block(f, A::AbstractMatrix)
     io = IOBuffer()
     h, w = axes(A)
@@ -120,11 +121,8 @@ function to_block(f, A::AbstractMatrix)
                 print(io, bottom ? '▄' : ' ')
             end
         end
-        # Return after every column
-        y != last(yrange) && println(io)
+        println(io)
     end
-    # The last character is null
-    print(io, Char(0x00))
     return String(take!(io))
 end
 
@@ -152,6 +150,7 @@ julia> print(to_braille(iseven, A))
 ⠡⡥⠝⣘
 ```
 """
+to_braille(A) = to_braille(>(zero(eltype(A))), A)
 function to_braille(f, A::AbstractMatrix)
     io = IOBuffer()
     h, w = axes(A)
@@ -167,11 +166,8 @@ function to_braille(f, A::AbstractMatrix)
             end
             print(io, Char(ch))
         end
-        # Return after every column
-        y != last(yrange) && println(io)
+        println(io)
     end
-    # The last character is null
-    print(io, Char(0x00))
     return String(take!(io))
 end
 
