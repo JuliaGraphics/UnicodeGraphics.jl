@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/rafaqz/UnicodeGraphics.jl.svg?branch=master)](https://travis-ci.org/rafaqz/UnicodeGraphics.jl)
 [![codecov.io](http://codecov.io/github/rafaqz/UnicodeGraphics.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/UnicodeGraphics.jl?branch=master)
 
-Convert a matrix of Real into a braille or block Unicode string, real fast.
+Convert any matrix into a braille or block Unicode string, real fast.
 
 ```julia
 julia> pac = [
@@ -72,4 +72,14 @@ julia> bprint(iseven, ghost)
 ⣴⠆⣸⣷⠆⣸⣧
 ⣿⢿⣿⠿⣿⡿⣿
 ⠁⠀⠉⠀⠉⠀⠈
+```
+`bprint` can be used to write into any `IO` stream, defaulting to `stdout`.
+
+`bstring` can be used to return a string instead of printing to IO:
+```julia-repl
+julia> bstring(iseven, ghost)
+"⢀⠴⣾⣿⠷⣦⡀\n⣴⠆⣸⣷⠆⣸⣧\n⣿⢿⣿⠿⣿⡿⣿\n⠁⠀⠉⠀⠉⠀⠈\n"
+
+julia> bstring(iseven, ghost, :block)
+"   ▄▄████▄▄   \n ▄▀▀████▀▀██▄ \n ▄▄  ██▄▄  ██ \n██▀ ▄███▀ ▄███\n██████████████\n██▀███▀▀███▀██\n▀   ▀▀  ▀▀   ▀\n"
 ```
