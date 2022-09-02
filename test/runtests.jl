@@ -1,5 +1,6 @@
 using Test
 using ReferenceTests
+using Suppressor: @capture_out
 using UnicodeGraphics, OffsetArrays
 
 pac = [
@@ -27,6 +28,8 @@ pac = [
 
 @test_reference "references/braille_pac.txt" bstring(pac)
 @test_reference "references/block_pac.txt" bstring(pac, :block)
+@test_reference "references/braille_pac.txt" @capture_out bprint(pac)
+@test_reference "references/block_pac.txt" @capture_out bprint(pac, :block)
 @test_throws ArgumentError bstring(pac, :foo)
 
 ghost = [
@@ -71,6 +74,8 @@ ghost2 = [
 
 @test_reference "references/braille_ghost.txt" bstring(iseven, ghost2)
 @test_reference "references/block_ghost.txt" bstring(iseven, ghost2, :block)
+@test_reference "references/braille_ghost.txt" @capture_out bprint(iseven, ghost2)
+@test_reference "references/block_ghost.txt" @capture_out bprint(iseven, ghost2, :block)
 
 # Remove deprecations before next breaking release:
 @test_reference "references/braille_ghost.txt" (@test_deprecated brailize(ghost))

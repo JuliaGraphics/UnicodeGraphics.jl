@@ -1,8 +1,10 @@
 [deps]
 OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 ReferenceTests = "324d217c-45ce-50fc-942e-d289b448e8cf"
+Suppressor = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 OffsetArrays = "1"
 ReferenceTests = "0.10"
+Suppressor = "0.2"
