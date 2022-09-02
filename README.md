@@ -3,8 +3,15 @@
 [![Build Status](https://travis-ci.org/rafaqz/UnicodeGraphics.jl.svg?branch=master)](https://travis-ci.org/rafaqz/UnicodeGraphics.jl)
 [![codecov.io](http://codecov.io/github/rafaqz/UnicodeGraphics.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/UnicodeGraphics.jl?branch=master)
 
-Convert any matrix into a braille or block Unicode string, real fast.
+Convert any matrix into a braille or block Unicode string, real fast and dependency free.
 
+## Installation 
+This package supports Julia ≥1.2. To install it, open the Julia REPL and run 
+```julia-repl
+julia> ]add UnicodeGraphics
+```
+
+## Examples
 ```julia
 julia> pac = [
    0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0
