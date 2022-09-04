@@ -6,7 +6,7 @@
 Convert any matrix into a braille or block Unicode string, real fast and dependency free.
 
 ## Installation 
-This package supports Julia ≥1.2. To install it, open the Julia REPL and run 
+This package supports Julia ≥1.6. To install it, open the Julia REPL and run 
 ```julia-repl
 julia> ]add UnicodeGraphics
 ```

@@ -4,4 +4,4 @@ authors = ["Rafael Schouten <rafaelschouten@gmail.com>"]
 version = "0.1.2"
 
 [compat]
-julia = "1.2"
+julia = "1.6"
