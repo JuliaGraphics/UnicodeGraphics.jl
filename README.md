@@ -36,14 +36,14 @@ julia> pac = [
    0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0
 ];
 
-julia> bprint(pac)  # same as bprint(pac, :braille)
+julia> uprint(pac)  # same as uprint(pac, :braille)
 ⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀
 ⣰⣿⣿⣿⣧⣼⣿⡿⠟⠃
 ⣿⣿⣿⣿⣿⣏⡁⠀⠀⠠
 ⠹⣿⣿⣿⣿⣿⣿⣷⣦⡄
 ⠀⠙⠻⢿⣿⣿⡿⠟⠋⠀
 
-julia> bprint(pac, :block)
+julia> uprint(pac, :block)
      ▄▄██████▄▄     
   ▄██████████████▄  
  ▄███████  ████████ 
@@ -74,19 +74,19 @@ julia> ghost = [
    8 3 7 3 8 6 9 3 6 6 1 9 1 6
 ];
 
-julia> bprint(iseven, ghost)
+julia> uprint(iseven, ghost)
 ⢀⠴⣾⣿⠷⣦⡀
 ⣴⠆⣸⣷⠆⣸⣧
 ⣿⢿⣿⠿⣿⡿⣿
 ⠁⠀⠉⠀⠉⠀⠈
 ```
-`bprint` can be used to write into any `IO` stream, defaulting to `stdout`.
+`uprint` can be used to write into any `IO` stream, defaulting to `stdout`.
 
-`bstring` can be used to return a string instead of printing to IO:
+`ustring` can be used to return a string instead of printing to IO:
 ```julia-repl
-julia> bstring(iseven, ghost)
+julia> ustring(iseven, ghost)
 "⢀⠴⣾⣿⠷⣦⡀\n⣴⠆⣸⣷⠆⣸⣧\n⣿⢿⣿⠿⣿⡿⣿\n⠁⠀⠉⠀⠉⠀⠈\n"
 
-julia> bstring(iseven, ghost, :block)
+julia> ustring(iseven, ghost, :block)
 "   ▄▄████▄▄   \n ▄▀▀████▀▀██▄ \n ▄▄  ██▄▄  ██ \n██▀ ▄███▀ ▄███\n██████████████\n██▀███▀▀███▀██\n▀   ▀▀  ▀▀   ▀\n"
 ```

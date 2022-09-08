@@ -26,11 +26,11 @@ pac = [
     0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0
 ]
 
-@test_reference "references/braille_pac.txt" bstring(pac)
-@test_reference "references/block_pac.txt" bstring(pac, :block)
-@test_reference "references/braille_pac.txt" @capture_out bprint(pac)
-@test_reference "references/block_pac.txt" @capture_out bprint(pac, :block)
-@test_throws ArgumentError bstring(pac, :foo)
+@test_reference "references/braille_pac.txt" ustring(pac)
+@test_reference "references/block_pac.txt" ustring(pac, :block)
+@test_reference "references/braille_pac.txt" @capture_out uprint(pac)
+@test_reference "references/block_pac.txt" @capture_out uprint(pac, :block)
+@test_throws ArgumentError ustring(pac, :foo)
 
 ghost = [
     0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0 1.0 0.0 0.0 0.0 0.0 0.0
@@ -48,13 +48,13 @@ ghost = [
     1.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0
 ]
 
-@test_reference "references/braille_ghost.txt" bstring(ghost)
-@test_reference "references/block_ghost.txt" bstring(ghost, :block)
+@test_reference "references/braille_ghost.txt" ustring(ghost)
+@test_reference "references/block_ghost.txt" ustring(ghost, :block)
 
 offset_ghost = OffsetArray(ghost, 3:15, 4:17)
 
-@test_reference "references/braille_ghost.txt" bstring(offset_ghost)
-@test_reference "references/block_ghost.txt" bstring(offset_ghost, :block)
+@test_reference "references/braille_ghost.txt" ustring(offset_ghost)
+@test_reference "references/block_ghost.txt" ustring(offset_ghost, :block)
 
 ghost2 = [
     1 7 7 7 7 8 6 4 6 3 9 9 9 7
@@ -72,10 +72,10 @@ ghost2 = [
     8 3 7 3 8 6 9 3 6 6 1 9 1 6
 ]
 
-@test_reference "references/braille_ghost.txt" bstring(iseven, ghost2)
-@test_reference "references/block_ghost.txt" bstring(iseven, ghost2, :block)
-@test_reference "references/braille_ghost.txt" @capture_out bprint(iseven, ghost2)
-@test_reference "references/block_ghost.txt" @capture_out bprint(iseven, ghost2, :block)
+@test_reference "references/braille_ghost.txt" ustring(iseven, ghost2)
+@test_reference "references/block_ghost.txt" ustring(iseven, ghost2, :block)
+@test_reference "references/braille_ghost.txt" @capture_out uprint(iseven, ghost2)
+@test_reference "references/block_ghost.txt" @capture_out uprint(iseven, ghost2, :block)
 
 # Remove deprecations before next breaking release:
 @test_reference "references/braille_ghost.txt" (@test_deprecated brailize(ghost))

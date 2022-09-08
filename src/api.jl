@@ -1,5 +1,5 @@
 """
-    bprint([io::IO], A, [method])
+    uprint([io::IO], A, [method])
 
 Write to `io` (or to the default output stream `stdout` if `io` is not given) a binary
 unicode representation of `A` , filling values that are `true` or greater than zero.
@@ -20,23 +20,23 @@ julia> A = rand(Bool, 8, 8)
  0  0  1  0  0  1  0  1
  1  1  0  1  1  1  0  0
 
-julia> bprint(A)
+julia> uprint(A)
 ⠜⠚⣘⣚
 ⣛⢆⣺⠩
-julia> bprint(A, :block)
+julia> uprint(A, :block)
  █▄█ █▄█
 ▀   ▄▄▄▄
 ██▄ ▄█▀▀
 ▄▄▀▄▄█ ▀
 ```
 """
-bprint(A::AbstractMatrix, method::Symbol=DEFAULT_METHOD) = bprint(stdout, A, method)
-function bprint(io::IO, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
-    return bprint(io, >(zero(eltype(A))), A, method)
+uprint(A::AbstractMatrix, method::Symbol=DEFAULT_METHOD) = uprint(stdout, A, method)
+function uprint(io::IO, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+    return uprint(io, >(zero(eltype(A))), A, method)
 end
 
 """
-    bprint([io::IO], f, A, [method])
+    uprint([io::IO], f, A, [method])
 
 Write to `io` (or to the default output stream `stdout` if `io` is not given) a binary
 unicode representation of `A` , filling values for which `f` returns `true`.
@@ -57,20 +57,20 @@ julia> A = rand(1:9, 8, 8)
  3  8  4  3  9  5  5  6
  1  4  4  2  8  6  3  9
 
-julia> bprint(iseven, A)
+julia> uprint(iseven, A)
 ⣂⢗⡫⣬
 ⢩⣏⣋⠢
-julia> bprint(>(3), A, :block)
+julia> uprint(>(3), A, :block)
 █ ▀▄▀▄█▀
 ██▀▄▄███
 █ ▄▀▄▀▄▀
  ██ ██▀█
 ```
 """
-function bprint(f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
-    return bprint(stdout, f, A, method)
+function uprint(f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+    return uprint(stdout, f, A, method)
 end
-function bprint(io::IO, f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+function uprint(io::IO, f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
     if method == :braille
         to_braille(io, f, A)
     elseif method == :block
@@ -82,7 +82,7 @@ function bprint(io::IO, f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_M
 end
 
 """
-    bstring(A, [method])
+    ustring(A, [method])
 
 Return a string containing a binary unicode representation of `A` , filling values that are
 `true` or greater than zero.
@@ -103,19 +103,19 @@ julia> A = rand(Bool, 8, 8)
  0  0  1  0  0  1  1  1
  1  1  1  1  0  0  1  1
 
-julia> bstring(A)
+julia> ustring(A)
 "⡏⡙⣞⣄\n⣐⣆⠢⣵\n"
 
-julia> bstring(A, :block)
+julia> ustring(A, :block)
 "█▀▀█▄█  \n█ ▄ █▄█▄\n ▄▄ ▄ ▀▄\n▄▄█▄ ▀██\n"
 ```
 """
-function bstring(A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
-    return bstring(>(zero(eltype(A))), A, method)
+function ustring(A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+    return ustring(>(zero(eltype(A))), A, method)
 end
 
 """
-    bstring(f, A, [method])
+    ustring(f, A, [method])
 
 Return a string containing a binary unicode representation of `A`, filling values for which
 `f` returns `true`.
@@ -136,15 +136,15 @@ julia> A = rand(1:9, 8, 8)
  4  9  6  2  3  4  8  4
  7  2  7  9  8  2  6  7
 
-julia> bstring(iseven, A)
+julia> ustring(iseven, A)
 "⢡⡌⡈⢐\n⢞⠼⣡⡿\n"
 
-julia> bstring(>(3), A, :block)
+julia> ustring(>(3), A, :block)
 "██▀▀██ ▀\n▄██▄██ █\n▄██▄  ██\n█▀█▄▄▀██\n"
 ```
 """
-function bstring(f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+function ustring(f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
     io = IOBuffer()
-    bprint(io, f, A, method)
+    uprint(io, f, A, method)
     return String(take!(io))
 end

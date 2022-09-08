@@ -8,6 +8,6 @@ include("api.jl")
 include("core.jl")
 include("deprecate.jl")
 
-export bprint, bstring
+export uprint, ustring
 
 end # module
