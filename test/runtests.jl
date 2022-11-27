@@ -77,6 +77,13 @@ ghost2 = [
 @test_reference "references/braille_ghost.txt" @capture_out uprint(iseven, ghost2)
 @test_reference "references/block_ghost.txt" @capture_out uprint(iseven, ghost2, :block)
 
+# Test vector and n-dimensional arrays
+v = [0, 1, 0, 1, 1, 0, 0, 1]
+@test ustring(v) == "⠈⠈⠁⠈\n"
+
+A = reshape(v, 2, 2, 1, 1, 2)
+@test ustring(A) == "[:, :, 1, 1, 1] =\n⠒\n\n[:, :, 1, 1, 2] =\n⠑\n"
+
 # Remove deprecations before next breaking release:
 @test_reference "references/braille_ghost.txt" (@test_deprecated brailize(ghost))
 @test_reference "references/block_ghost.txt" (@test_deprecated blockize(ghost))
