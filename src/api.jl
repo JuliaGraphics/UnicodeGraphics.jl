@@ -30,8 +30,8 @@ julia> uprint(A, :block)
 ▄▄▀▄▄█ ▀
 ```
 """
-uprint(A::AbstractMatrix, method::Symbol=DEFAULT_METHOD) = uprint(stdout, A, method)
-function uprint(io::IO, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+uprint(A::AbstractArray, method::Symbol=DEFAULT_METHOD) = uprint(stdout, A, method)
+function uprint(io::IO, A::AbstractArray, method::Symbol=DEFAULT_METHOD)
     return uprint(io, >(zero(eltype(A))), A, method)
 end
 
@@ -67,18 +67,11 @@ julia> uprint(>(3), A, :block)
  ██ ██▀█
 ```
 """
-function uprint(f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+function uprint(f::Function, A::AbstractArray, method::Symbol=DEFAULT_METHOD)
     return uprint(stdout, f, A, method)
 end
-function uprint(io::IO, f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
-    if method == :braille
-        to_braille(io, f, A)
-    elseif method == :block
-        to_block(io, f, A)
-    else
-        throw(ArgumentError("Valid methods are :braille and :block, got :$method."))
-    end
-    return nothing
+function uprint(io::IO, f::Function, A::AbstractArray, method::Symbol=DEFAULT_METHOD)
+    return _uprint_nd(io::IO, f::Function, A::AbstractArray, method::Symbol)
 end
 
 """
@@ -110,7 +103,7 @@ julia> ustring(A, :block)
 "█▀▀█▄█  \n█ ▄ █▄█▄\n ▄▄ ▄ ▀▄\n▄▄█▄ ▀██\n"
 ```
 """
-function ustring(A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+function ustring(A::AbstractArray, method::Symbol=DEFAULT_METHOD)
     return ustring(>(zero(eltype(A))), A, method)
 end
 
@@ -143,7 +136,7 @@ julia> ustring(>(3), A, :block)
 "██▀▀██ ▀\n▄██▄██ █\n▄██▄  ██\n█▀█▄▄▀██\n"
 ```
 """
-function ustring(f::Function, A::AbstractMatrix, method::Symbol=DEFAULT_METHOD)
+function ustring(f::Function, A::AbstractArray, method::Symbol=DEFAULT_METHOD)
     io = IOBuffer()
     uprint(io, f, A, method)
     return String(take!(io))
