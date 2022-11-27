@@ -12,7 +12,7 @@ julia> ]add UnicodeGraphics
 ```
 
 ## Examples
-By default, `uprint` prints all values greater than zero in an array:
+By default, `uprint` prints all values in an array that are true or greater than zero:
 ```julia
 julia> pac = [
    0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0
@@ -57,7 +57,7 @@ julia> uprint(pac, :block)
      ▀▀██████▀▀     
 ```
 
-It is also possible to pass a filtering function, filling values for which the function returns `true`, e.g. even numbers in the following array:
+It is also possible to pass a filtering function, filling values for which the function returns `true`, e.g. all even numbers in the following array:
 ```julia
 julia> ghost = [
    1 7 7 7 7 8 6 4 6 3 9 9 9 7
@@ -82,31 +82,46 @@ julia> uprint(iseven, ghost)
 ⠁⠀⠉⠀⠉⠀⠈
 ```
 
-Higher order arrays and non-number types are also supported, 
+Non-number type inputs are also supported, 
 as long as the filtering function returns boolean values:
-```julia-repl
-julia> A = rand("abc123", 4, 4, 1, 2)
-4×4×1×2 Array{Char, 4}:
-[:, :, 1, 1] =
- 'a'  'b'  'c'  'a'
- 'b'  '2'  'b'  '1'
- 'a'  'b'  '1'  'a'
- '1'  'b'  'a'  'b'
 
-[:, :, 1, 2] =
- 'a'  '2'  '2'  '1'
- 'a'  '2'  'a'  'c'
- '3'  '2'  'c'  'b'
- 'c'  'c'  'c'  '1'
+```julia-repl
+julia> A = rand("abc123", 4, 4)
+4×4 Matrix{Char}:
+ '3'  'c'  '3'  '1'
+ 'a'  'c'  '1'  'c'
+ '1'  '1'  '2'  'a'
+ 'b'  'a'  '2'  'a'
 
 julia> uprint(isletter, A, :block)
+▄█ ▄
+▄▄ █
+```
+
+Multidimensional arrays are also supported:
+```julia-repl
+julia> A = rand(Bool, 4, 4, 1, 2)
+4×4×1×2 Array{Bool, 4}:
 [:, :, 1, 1] =
-█▀█▀
-▀█▄█
+ 0  1  0  0
+ 1  0  1  0
+ 0  1  1  1
+ 0  0  1  1
 
 [:, :, 1, 2] =
-█ ▄▄
-▄▄█▀
+ 1  1  0  0
+ 1  1  0  0
+ 0  0  1  0
+ 0  0  1  0
+
+julia> uprint(A, :block)
+[:, :, 1, 1] =
+▄▀▄ 
+ ▀██
+
+[:, :, 1, 2] =
+██  
+  █ 
 ```
 
 `uprint` can be used to write into any `IO` stream, defaulting to `stdout`.
@@ -125,9 +140,6 @@ julia> String(take!(io)) |> print
 
 To directly return a string instead of printing to IO, `ustring` can be used:
 ```julia-repl
-julia> ustring(iseven, ghost)
-"⢀⠴⣾⣿⠷⣦⡀\n⣴⠆⣸⣷⠆⣸⣧\n⣿⢿⣿⠿⣿⡿⣿\n⠁⠀⠉⠀⠉⠀⠈\n"
-
-julia> ustring(iseven, ghost, :block)
-"   ▄▄████▄▄   \n ▄▀▀████▀▀██▄ \n ▄▄  ██▄▄  ██ \n██▀ ▄███▀ ▄███\n██████████████\n██▀███▀▀███▀██\n▀   ▀▀  ▀▀   ▀\n"
+julia> ustring(pac)
+"⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀\n⣰⣿⣿⣿⣧⣼⣿⡿⠟⠃\n⣿⣿⣿⣿⣿⣏⡁⠀⠀⠠\n⠹⣿⣿⣿⣿⣿⣿⣷⣦⡄\n⠀⠙⠻⢿⣿⣿⡿⠟⠋⠀\n"
 ```
