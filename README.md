@@ -12,6 +12,7 @@ julia> ]add UnicodeGraphics
 ```
 
 ## Examples
+By default, `uprint` prints all values greater than zero in an array:
 ```julia
 julia> pac = [
    0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0
@@ -56,7 +57,7 @@ julia> uprint(pac, :block)
      ▀▀██████▀▀     
 ```
 
-It is also possible to pass a filtering function, filling values for which the function returns `true`:
+It is also possible to pass a filtering function, filling values for which the function returns `true`, e.g. even numbers in the following array:
 ```julia
 julia> ghost = [
    1 7 7 7 7 8 6 4 6 3 9 9 9 7
@@ -80,9 +81,49 @@ julia> uprint(iseven, ghost)
 ⣿⢿⣿⠿⣿⡿⣿
 ⠁⠀⠉⠀⠉⠀⠈
 ```
-`uprint` can be used to write into any `IO` stream, defaulting to `stdout`.
 
-`ustring` can be used to return a string instead of printing to IO:
+Higher order arrays and non-number types are also supported, 
+as long as the filtering function returns boolean values:
+```julia-repl
+julia> A = rand("abc123", 4, 4, 1, 2)
+4×4×1×2 Array{Char, 4}:
+[:, :, 1, 1] =
+ 'a'  'b'  'c'  'a'
+ 'b'  '2'  'b'  '1'
+ 'a'  'b'  '1'  'a'
+ '1'  'b'  'a'  'b'
+
+[:, :, 1, 2] =
+ 'a'  '2'  '2'  '1'
+ 'a'  '2'  'a'  'c'
+ '3'  '2'  'c'  'b'
+ 'c'  'c'  'c'  '1'
+
+julia> uprint(isletter, A, :block)
+[:, :, 1, 1] =
+█▀█▀
+▀█▄█
+
+[:, :, 1, 2] =
+█ ▄▄
+▄▄█▀
+```
+
+`uprint` can be used to write into any `IO` stream, defaulting to `stdout`.
+```julia-repl
+julia> io = IOBuffer();
+
+julia> uprint(io, pac)
+
+julia> String(take!(io)) |> print
+⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀
+⣰⣿⣿⣿⣧⣼⣿⡿⠟⠃
+⣿⣿⣿⣿⣿⣏⡁⠀⠀⠠
+⠹⣿⣿⣿⣿⣿⣿⣷⣦⡄
+⠀⠙⠻⢿⣿⣿⡿⠟⠋⠀
+```
+
+To directly return a string instead of printing to IO, `ustring` can be used:
 ```julia-repl
 julia> ustring(iseven, ghost)
 "⢀⠴⣾⣿⠷⣦⡀\n⣴⠆⣸⣷⠆⣸⣧\n⣿⢿⣿⠿⣿⡿⣿\n⠁⠀⠉⠀⠉⠀⠈\n"
