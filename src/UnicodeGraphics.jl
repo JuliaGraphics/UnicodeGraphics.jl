@@ -5,6 +5,7 @@ module UnicodeGraphics
 
 const DEFAULT_METHOD = :braille
 include("api.jl")
+include("ndarray.jl")
 include("core.jl")
 include("deprecate.jl")
 

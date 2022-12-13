@@ -12,6 +12,7 @@ julia> ]add UnicodeGraphics
 ```
 
 ## Examples
+By default, `uprint` prints all values in an array that are true or greater than zero:
 ```julia
 julia> pac = [
    0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0
@@ -56,7 +57,7 @@ julia> uprint(pac, :block)
      ▀▀██████▀▀     
 ```
 
-It is also possible to pass a filtering function, filling values for which the function returns `true`:
+It is also possible to pass a filtering function, filling values for which the function returns `true`, e.g. all even numbers in the following array:
 ```julia
 julia> ghost = [
    1 7 7 7 7 8 6 4 6 3 9 9 9 7
@@ -80,13 +81,65 @@ julia> uprint(iseven, ghost)
 ⣿⢿⣿⠿⣿⡿⣿
 ⠁⠀⠉⠀⠉⠀⠈
 ```
-`uprint` can be used to write into any `IO` stream, defaulting to `stdout`.
 
-`ustring` can be used to return a string instead of printing to IO:
+Non-number type inputs are also supported, 
+as long as the filtering function returns boolean values:
+
 ```julia-repl
-julia> ustring(iseven, ghost)
-"⢀⠴⣾⣿⠷⣦⡀\n⣴⠆⣸⣷⠆⣸⣧\n⣿⢿⣿⠿⣿⡿⣿\n⠁⠀⠉⠀⠉⠀⠈\n"
+julia> A = rand("abc123", 4, 4)
+4×4 Matrix{Char}:
+ '3'  'c'  '3'  '1'
+ 'a'  'c'  '1'  'c'
+ '1'  '1'  '2'  'a'
+ 'b'  'a'  '2'  'a'
 
-julia> ustring(iseven, ghost, :block)
-"   ▄▄████▄▄   \n ▄▀▀████▀▀██▄ \n ▄▄  ██▄▄  ██ \n██▀ ▄███▀ ▄███\n██████████████\n██▀███▀▀███▀██\n▀   ▀▀  ▀▀   ▀\n"
+julia> uprint(isletter, A, :block)
+▄█ ▄
+▄▄ █
+```
+
+Multidimensional arrays are also supported:
+```julia-repl
+julia> A = rand(Bool, 4, 4, 1, 2)
+4×4×1×2 Array{Bool, 4}:
+[:, :, 1, 1] =
+ 0  1  0  0
+ 1  0  1  0
+ 0  1  1  1
+ 0  0  1  1
+
+[:, :, 1, 2] =
+ 1  1  0  0
+ 1  1  0  0
+ 0  0  1  0
+ 0  0  1  0
+
+julia> uprint(A, :block)
+[:, :, 1, 1] =
+▄▀▄ 
+ ▀██
+
+[:, :, 1, 2] =
+██  
+  █ 
+```
+
+`uprint` can be used to write into any `IO` stream, defaulting to `stdout`.
+```julia-repl
+julia> io = IOBuffer();
+
+julia> uprint(io, pac)
+
+julia> String(take!(io)) |> print
+⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀
+⣰⣿⣿⣿⣧⣼⣿⡿⠟⠃
+⣿⣿⣿⣿⣿⣏⡁⠀⠀⠠
+⠹⣿⣿⣿⣿⣿⣿⣷⣦⡄
+⠀⠙⠻⢿⣿⣿⡿⠟⠋⠀
+```
+
+To directly return a string instead of printing to IO, `ustring` can be used:
+```julia-repl
+julia> ustring(pac)
+"⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀\n⣰⣿⣿⣿⣧⣼⣿⡿⠟⠃\n⣿⣿⣿⣿⣿⣏⡁⠀⠀⠠\n⠹⣿⣿⣿⣿⣿⣿⣷⣦⡄\n⠀⠙⠻⢿⣿⣿⡿⠟⠋⠀\n"
 ```
