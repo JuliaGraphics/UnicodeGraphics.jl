@@ -7,7 +7,7 @@ Convert any matrix into a braille or block Unicode string, real fast and depende
 
 ## Installation 
 This package supports Julia ≥1.6. To install it, open the Julia REPL and run 
-```julia-repl
+```julia
 julia> ]add UnicodeGraphics
 ```
 
@@ -85,7 +85,7 @@ julia> uprint(iseven, ghost)
 Non-number type inputs are also supported, 
 as long as the filtering function returns boolean values:
 
-```julia-repl
+```julia
 julia> A = rand("abc123", 4, 4)
 4×4 Matrix{Char}:
  '3'  'c'  '3'  '1'
@@ -99,7 +99,7 @@ julia> uprint(isletter, A, :block)
 ```
 
 Multidimensional arrays are also supported:
-```julia-repl
+```julia
 julia> A = rand(Bool, 4, 4, 1, 2)
 4×4×1×2 Array{Bool, 4}:
 [:, :, 1, 1] =
@@ -125,7 +125,7 @@ julia> uprint(A, :block)
 ```
 
 `uprint` can be used to write into any `IO` stream, defaulting to `stdout`.
-```julia-repl
+```julia
 julia> io = IOBuffer();
 
 julia> uprint(io, pac)
@@ -139,7 +139,7 @@ julia> String(take!(io)) |> print
 ```
 
 To directly return a string instead of printing to IO, `ustring` can be used:
-```julia-repl
+```julia
 julia> ustring(pac)
 "⠀⣠⣴⣾⣿⣿⣷⣦⣄⠀\n⣰⣿⣿⣿⣧⣼⣿⡿⠟⠃\n⣿⣿⣿⣿⣿⣏⡁⠀⠀⠠\n⠹⣿⣿⣿⣿⣿⣿⣷⣦⡄\n⠀⠙⠻⢿⣿⣿⡿⠟⠋⠀\n"
 ```
