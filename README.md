@@ -57,7 +57,9 @@ julia> uprint(pac, :block)
      ▀▀██████▀▀     
 ```
 
-It is also possible to pass a filtering function, filling values for which the function returns `true`, e.g. all even numbers in the following array:
+When passing a filtering function, 
+UnicodeGraphics will fill all values for which the function returns `true`, 
+e.g. all even numbers using `iseven`:
 ```julia
 julia> ghost = [
    1 7 7 7 7 8 6 4 6 3 9 9 9 7
@@ -73,7 +75,7 @@ julia> ghost = [
    4 2 6 4 2 6 8 6 6 2 8 8 8 8
    8 2 3 6 6 8 9 1 2 4 8 5 4 8
    8 3 7 3 8 6 9 3 6 6 1 9 1 6
-];
+]; # a ghost is hidden in here
 
 julia> uprint(iseven, ghost)
 ⢀⠴⣾⣿⠷⣦⡀
@@ -82,9 +84,8 @@ julia> uprint(iseven, ghost)
 ⠁⠀⠉⠀⠉⠀⠈
 ```
 
-Non-number type inputs are also supported, 
+Non-number type inputs are supported, 
 as long as the filtering function returns boolean values:
-
 ```julia
 julia> A = rand("abc123", 4, 4)
 4×4 Matrix{Char}:
@@ -96,6 +97,28 @@ julia> A = rand("abc123", 4, 4)
 julia> uprint(isletter, A, :block)
 ▄█ ▄
 ▄▄ █
+```
+
+Instead of passing a function directly, 
+[do-block syntax](https://docs.julialang.org/en/v1/manual/functions/#Do-Block-Syntax-for-Function-Arguments) can be used:
+```julia
+julia> A = [x + y * im for y in 10:-1:1, x in 1:10]
+10×10 Matrix{Complex{Int64}}:
+ 1+10im  2+10im  3+10im  …  8+10im  9+10im  10+10im
+ 1+9im   2+9im   3+9im      8+9im   9+9im   10+9im
+ 1+8im   2+8im   3+8im      8+8im   9+8im   10+8im
+  ⋮                      ⋱
+ 1+3im   2+3im   3+3im      8+3im   9+3im   10+3im
+ 1+2im   2+2im   3+2im      8+2im   9+2im   10+2im
+ 1+1im   2+1im   3+1im      8+1im   9+1im   10+1im
+
+julia> uprint(A) do x
+           φ = angle(x)
+           φ < π/4
+       end
+⠀⠀⠀⢀⣴
+⠀⢀⣴⣿⣿
+⠐⠛⠛⠛⠛
 ```
 
 Multidimensional arrays are also supported:
