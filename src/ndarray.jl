@@ -4,6 +4,10 @@ function _uprint_nd(io::IO, f::Function, A::AbstractMatrix, method::Symbol)
         to_braille(io, f, A)
     elseif method == :block
         to_block(io, f, A)
+    elseif method == :quadrant
+        to_quadrant(io, f, A)
+    elseif method == :sextant
+        to_sextant(io, f, A)
     elseif method == :octant
         to_octant(io, f, A)
     else
