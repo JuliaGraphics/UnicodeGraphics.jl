@@ -11,7 +11,7 @@ function _uprint_nd(io::IO, f::Function, A::AbstractMatrix, method::Symbol)
     elseif method == :octant
         to_octant(io, f, A)
     else
-        throw(ArgumentError("Valid methods are :braille and :block, got :$method."))
+        throw(ArgumentError("Valid methods are :braille, :block, :quadrant, :sextant, or :octant; got :$method instead."))
     end
     return nothing
 end
