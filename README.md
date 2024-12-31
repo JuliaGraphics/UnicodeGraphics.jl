@@ -55,7 +55,21 @@ julia> uprint(pac, :block)
  ▀█████████████████ 
   ▀██████████████▀  
      ▀▀██████▀▀     
+
+julia> uprint(pac, :sextant)
+ 🬞🬵🬻██🬺🬱🬏
+🬞███🬕🬨███🬓
+🬻█████🬝🬆🬀
+█████🬲🬏  🬇
+🬨██████🬺🬱🬏
+ 🬬██████🬝🬀
+  🬁🬊🬎🬎🬆🬀
 ```
+Other drawing modes include `:quadrant` and `:octant`. While `:block`
+splits each character cell in two, the quadrants, sextants, and
+octants split a cell into 4, 6, or 8 "pixels". Octant mode requires
+Unicode 16 support in fonts and is not yet (as of late 2024) widely
+available.
 
 When passing a filtering function, 
 UnicodeGraphics will fill all values for which the function returns `true`, 

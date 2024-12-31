@@ -1,4 +1,10 @@
 # UnicodeGraphics.jl
+## Version `v0.2.2`
+* ![Feature][badge-feature] Added support for plotting via quadrants,
+  sextants, and octants. Octants requires Unicode 16 font support and
+  is in 2024 not yet widely available. Things will work but the result
+  will look bad. ([#8][pr-8])
+
 ## Version `v0.2.1`
 * ![Feature][badge-feature] Added support for multidimensional arrays ([#7][pr-7])
 
@@ -22,6 +28,7 @@
 
 [pr-5]: https://github.com/JuliaGraphics/UnicodeGraphics.jl/pull/5
 [pr-7]: https://github.com/JuliaGraphics/UnicodeGraphics.jl/pull/7
+[pr-8]: https://github.com/JuliaGraphics/UnicodeGraphics.jl/pull/8
 
 [badge-breaking]: https://img.shields.io/badge/BREAKING-red.svg
 [badge-deprecation]: https://img.shields.io/badge/deprecation-orange.svg

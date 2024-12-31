@@ -74,8 +74,14 @@ ghost2 = [
 
 @test_reference "references/braille_ghost.txt" ustring(iseven, ghost2)
 @test_reference "references/block_ghost.txt" ustring(iseven, ghost2, :block)
+@test_reference "references/quadrant_ghost.txt" ustring(iseven, ghost2, :quadrant)
+@test_reference "references/sextant_ghost.txt" ustring(iseven, ghost2, :sextant)
+@test_reference "references/octant_ghost.txt" ustring(iseven, ghost2, :octant)
 @test_reference "references/braille_ghost.txt" @capture_out uprint(iseven, ghost2)
 @test_reference "references/block_ghost.txt" @capture_out uprint(iseven, ghost2, :block)
+@test_reference "references/quadrant_ghost.txt" @capture_out uprint(iseven, ghost2, :quadrant)
+@test_reference "references/sextant_ghost.txt" @capture_out uprint(iseven, ghost2, :sextant)
+@test_reference "references/octant_ghost.txt" @capture_out uprint(iseven, ghost2, :octant)
 
 # Test vector and n-dimensional arrays
 v = [0, 1, 0, 1, 1, 0, 0, 1]
