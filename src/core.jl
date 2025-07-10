@@ -39,11 +39,9 @@ end
 
 # These are the 16 Unicode quadrant characters.
 #
-# The array is stored according to the octant bit pattern:
+# The array is stored according to the quadrant bit pattern:
 #     0 1
 #     2 3
-#     4 5
-#     6 7
 const QUADRANT_CHARS = Char[0x00A0, # NO-BREAK SPACE
                             0x2598, # QUADRANT UPPER LEFT
                             0x259D, # QUADRANT UPPER RIGHT
